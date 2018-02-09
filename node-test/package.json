@@ -1,0 +1,19 @@
+{
+  "name": "node-project",
+  "version": "1.0.0",
+  "description": "<a href=\"https://www.nodebeginner.org/index-zh-cn.html#javascript-and-nodejs\">node入门</a>",
+  "main": "index.js",
+  "dependencies": {
+    "formidable": "^1.1.1"
+  },
+  "devDependencies": {
+    "formidable": "^1.1.1",
+    "jquery": "^3.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "lianglw",
+  "license": "ISC"
+}
