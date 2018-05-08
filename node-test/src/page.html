@@ -12,8 +12,15 @@
         
     </div>
 </body>
+<script src="../node_modules/jquery/dist/jquery.js"></script>
 <script>
-    const $ = require('jquery');
-
+    console.log($);
+    $.ajax({
+        url: 'http://localhost:8888/',
+        type: 'get',
+        success: function (res) {
+            console.log('res', res);
+        }
+    })
 </script>
 </html>

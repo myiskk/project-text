@@ -7,5 +7,6 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
 handle["/show"] = requestHandlers.show;
+handle["/sqltext"] = requestHandlers.sqltext;
 
 server.start(router.route, handle);
