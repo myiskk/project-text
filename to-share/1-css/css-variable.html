@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css新特性-变量</title>
+</head>
+<style>
+    :root {
+        --bgk-color: blue;
+        --font-color: red;
+        --font-size: 50px;
+    }
+
+    .one {
+        background: var(--bgk-color);
+        /* --bgk-color: #000; */
+    }
+
+    h1 {
+        color: var(--font-color);
+        font-size: var(--font-size);
+    }
+
+    .tow {
+        height: 300px;
+        background: var(--bgk-color);
+    }
+</style>
+<body>
+    <div class="one">
+        <h1>
+            第一
+        </h1>
+        <h2>
+            第二
+        </h2>
+        <div class="tow">
+
+        </div>
+    </div>
+</body>
+</html>

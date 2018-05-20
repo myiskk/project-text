@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS and css</title>
+
+  <style>
+    :root{
+        --x: 40;
+        --y: 40;
+    }
+    body {
+        background: #000;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+
+    .frame {
+        background-image: url(https://p5.ssl.qhimg.com/t012c2b40e6c5b0fa48.jpg);
+        background-repeat: repeat;
+        width: 100%;
+        height: 100%;
+        clip-path: circle(80px at calc(var(--x) * 1px) calc(var(--y) * 1px));
+    }
+  </style>
+</head>
+
+<body>
+  <div class="frame"></div>
+</body>
+
+<script>
+    const setPropertys = data => {
+        Object.keys(data).forEach(key => {
+            document.documentElement.style.setProperty(key,data[key])
+        })
+        }
+
+        document.addEventListener('mousemove', function (e) {
+        setPropertys({
+            '--x': e.clientX,
+            '--y': e.clientY
+        })
+        });
+</script>
+
+</html>
+
