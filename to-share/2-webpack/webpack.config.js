@@ -1,7 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var DashboardPlugin = require('webpack-dashboard/plugin');
+
 
 module.exports = {
     mode: 'development',
@@ -17,7 +20,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    'style-loader',
+                    // MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
               },
@@ -29,16 +33,37 @@ module.exports = {
                         options: {
                             limit: '1024',
                             name: '[name].[ext]',
-                            outputPath: './image/'
+                            outputPath: './img/'
                         }  
                     },  
                 ]
             }
-        ]
+        ]    
+    },
+    // optimization: {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             vendor: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 name: 'vendor',
+    //                 chunks: 'all',
+    //             }
+    //         }
+    //     }
+    // },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000
     },
     plugins: [
         new CleanWebpackPlugin(
             ['dist/*'], //匹配删除的文件 
+            {
+                root: path.resolve(__dirname),      //根目录
+                verbose:  true,   　  //开启在控制台输出信息
+                dry:      false       //启用删除文件
+            }
         ),
         new MiniCssExtractPlugin({
             filename: '[name].css'
@@ -47,10 +72,26 @@ module.exports = {
             filename: 'index.html',
             template:  './src/index.html',
             chunks: ['j1']
-        }),
-      ]
+        })
+        // new webpack.HotModuleReplacementPlugin()
+      ],
+
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
