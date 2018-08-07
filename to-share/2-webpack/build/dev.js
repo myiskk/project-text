@@ -5,39 +5,30 @@ var opn = require('opn');
 var express = require('express');
 var webpack = require('webpack');
 var proxyMiddleware = require('http-proxy-middleware');
-var config = require('./config');
-var autoOpenBrowser = true;
-var port = config.dev.port;
+var config = require('./config').dev;
+var autoOpenBrowser = config.autoOpenBrowser;
+var port = config.port;
 var app = express();
 var compiler = webpack(webpackConfig); // 
-
-var proxyTable = config.dev.proxyTable;
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: '/',
     quiet: true
 });
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log:(message) => {console.log(message)}
-});
+// var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+//   log:(message) => {console.log(message)}
+// });
 app.use(devMiddleware)
-app.use(hotMiddleware)
+// app.use(hotMiddleware)
 
-compiler.plugin('compilation', function (compilation) {
-    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-        hotMiddleware.publish({ action: 'reload' })
-        cb()
-    })
-});
-
-Object.keys(proxyTable).forEach(function (context) {
-    var options = proxyTable[context]
-    if (typeof options === 'string') {
-        options = { target: options }
-    }
-    app.use(proxyMiddleware(options.filter || context, options))
-});
+// compiler.plugin('compilation', function (compilation) {
+//     console.log('钩子');
+//     compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//         hotMiddleware.publish({ action: 'reload' })
+//         cb()
+//     })
+// });
 
 app.use(express.static('./'));
 

@@ -16,7 +16,7 @@ spinner.start();
 webpack(webpackConfig, function (err, stats) {
     spinner.stop();
     if (err) throw err;
-    console.log(stats)
+    console.log(1111111111111111)
     // process.stdout.write(stats.toString({
     //   colors: true,
     //   modules: false,
