@@ -9,7 +9,7 @@ var config = require('./config');
 var autoOpenBrowser = true;
 var port = config.dev.port;
 var app = express();
-var compiler = webpack(webpackConfig);
+var compiler = webpack(webpackConfig); // 
 
 var proxyTable = config.dev.proxyTable;
 

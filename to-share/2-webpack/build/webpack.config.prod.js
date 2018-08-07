@@ -1,5 +1,4 @@
 var webpackMerge = require('webpack-merge')
-var webpack = require('webpack');
 var baseWebpackConfig = require('./webpack.config.base');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");

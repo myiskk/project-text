@@ -9,16 +9,23 @@ var webpackConfig = require('./webpack.config.prod');
 var spinner = ora('building for production...');
 spinner.start();
 
+/**
+ * webpack方法，返回
+ */
+
 webpack(webpackConfig, function (err, stats) {
     spinner.stop();
     if (err) throw err;
-    process.stdout.write(stats.toString({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false
-    }) + '\n\n');
+    console.log(stats)
+    // process.stdout.write(stats.toString({
+    //   colors: true,
+    //   modules: false,
+    //   children: false,
+    //   chunks: false,
+    //   chunkModules: false
+    // }) + '\n\n');
+
+    // https://www.webpackjs.com/api/node/#webpack-
   
     console.log(chalk.cyan('  Build complete.\n'));
     console.log(chalk.yellow(
