@@ -37,7 +37,7 @@ module.exports = {
                         options: {
                             limit: '10240',
                             name: '[name].[ext]',
-                            outputPath: '../dist/img/'
+                            outputPath: './dist/img/'
                         }
                     },  
                 ]
@@ -55,11 +55,11 @@ module.exports = {
             }
         }
     },
-    // devServer: {
-    //     contentBase: path.join(__dirname, 'dist'), // 你要提供哪里的内容给虚拟服务器用。绝对路径
-    //     compress: false,
-    //     port: 9000
-    // },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'), // 你要提供哪里的内容给虚拟服务器用。绝对路径
+        compress: false,
+        port: 9999
+    },
     plugins: [
         new CleanWebpackPlugin(
             ['dist/*'], //匹配删除的文件 
@@ -69,9 +69,9 @@ module.exports = {
                 dry:      false       //启用删除文件
             }
         ),
-        new MiniCssExtractPlugin({
-            filename: '[name].css'
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: '[name].css'
+        // }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template:  './src/index.html',

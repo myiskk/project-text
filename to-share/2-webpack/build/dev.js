@@ -11,36 +11,42 @@ var port = config.port;
 var app = express();
 var compiler = webpack(webpackConfig); // 
 
+
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: '/',
     quiet: true
 });
 
-// var hotMiddleware = require('webpack-hot-middleware')(compiler, {
-//   log:(message) => {console.log(message)}
-// });
+var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+  log:(message) => {console.log(message)}
+});
 app.use(devMiddleware)
-// app.use(hotMiddleware)
+app.use(hotMiddleware)
 
-// compiler.plugin('compilation', function (compilation) {
-//     console.log('钩子');
-//     compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-//         hotMiddleware.publish({ action: 'reload' })
-//         cb()
-//     })
-// });
+// if(module.hot){
+//     module.hot.accept();
+// }
 
 app.use(express.static('./'));
 
 var uri = 'http://localhost:' + port;
 app.use(function (req, res, next) {
+    console.log(1111111);
+    next();
+});
+app.use(function (req, res, next) {
+    console.log(222222);
+    next();
+});
+app.use(function (req, res, next) {
+    console.log(333333);
     next();
 });
 devMiddleware.waitUntilValid(function () {
     console.log('> Listening at ' + uri + '\n')
 });
 
-module.exports = app.listen(port, function (err) {
+app.listen(port, function (err) {
     if (err) {
         console.log(err);
         return

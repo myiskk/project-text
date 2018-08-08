@@ -1,10 +1,10 @@
 const path = require("path")
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ROOT_PATH = path.resolve(__dirname, '../');
-
+// 'webpack-hot-middleware/client?noInfo=true&reload=true'
 module.exports = {
     entry: {
-        j1: './src/js/j1.js'
+        j1: ['webpack-hot-middleware/client?noInfo=true&reload=true', './src/js/j1.js']
     },
     output: {
         filename: 'js/[name].js',
