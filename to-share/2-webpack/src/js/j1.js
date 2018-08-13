@@ -1,4 +1,4 @@
-// require('../style/s1.css');
+require('../style/s1.css');
 
 // const f2 = require('./j2');
 // f2();

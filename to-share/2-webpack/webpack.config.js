@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // 该插件将为你�
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require('webpack');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+// copy-webpack-plugin
 
 module.exports = {
     mode: 'development', // production
@@ -10,27 +11,30 @@ module.exports = {
     entry: {
         j1: './src/js/j1.js'
     },
-    // entry: './src/js/j1.js',
-    // entry: [
-    //     './src/js/j1.js', './src/js/j2.js'
-    // ],
     output: {
         filename: '[name]-[hash].js', // 添加md5哈希码保证文件的唯一，避免缓存
         path: path.resolve(__dirname, "dist")
     },
     // Webpack alias 配置
-    resolve:{
-        alias:{
-            '@components': './src/components/'
+    resolve: {
+        //自动扩展文件后缀名，意味着我们require模块可以省略不写后缀名
+        extensions: ['.js', '.css'],
+        alias: {
+            src: path.resolve(__dirname, './src/')
         }
     },
     module: {
         rules: [
+            { 
+                test: /\.js$/, 
+                exclude: /node_modules/, 
+                loader: "babel-loader" 
+            },
             {
                 test: /\.css$/, // 正则，数组
                 use: [
-                    // 'style-loader',
-                    MiniCssExtractPlugin.loader, // 生产环境
+                    'style-loader',
+                    // MiniCssExtractPlugin.loader, // 生产环境
                     'css-loader'
                 ]
             },
@@ -51,7 +55,7 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            cacheGroups: {
+            cacheGroups: {  // 自定义配置主要使用它来决定生成的文件
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
@@ -79,7 +83,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template:  './src/index.html',
+            template:  'html-withimg-loader!./src/index.html',
             chunks: ['vendor', 'j1'],
             title: 'is title'
         }),
