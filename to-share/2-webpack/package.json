@@ -8,7 +8,8 @@
     "watch": "webpack --watch",
     "dev": "node build/dev",
     "prod": "node build/prod",
-    "hot": "webpack-dev-server --open --hot"
+    "hot": "webpack-dev-server --open --hot",
+    "profile": "webpack --profile --json > compilation-stats.json"
   },
   "author": "",
   "license": "ISC",

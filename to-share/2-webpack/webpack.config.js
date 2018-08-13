@@ -5,7 +5,7 @@ const webpack = require('webpack');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: 'development', // production
     devtool: 'inline-source-map',
     entry: {
         j1: './src/js/j1.js'
@@ -16,16 +16,21 @@ module.exports = {
     // ],
     output: {
         filename: '[name]-[hash].js', // 添加md5哈希码保证文件的唯一，避免缓存
-        // filename: '[name].js',
         path: path.resolve(__dirname, "dist")
+    },
+    // Webpack alias 配置
+    resolve:{
+        alias:{
+            '@components': './src/components/'
+        }
     },
     module: {
         rules: [
             {
                 test: /\.css$/, // 正则，数组
                 use: [
-                    'style-loader',
-                    // MiniCssExtractPlugin.loader,
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader, // 生产环境
                     'css-loader'
                 ]
             },
@@ -55,7 +60,7 @@ module.exports = {
             }
         }
     },
-    devServer: {
+    devServer: { // 提供 HTTP 服务来预览本地文件；监听文件的变化并自动刷新页面；支持 Source Map，以方便调试。
         contentBase: path.join(__dirname, 'dist'), // 你要提供哪里的内容给虚拟服务器用。绝对路径
         compress: false,
         port: 9999
@@ -69,16 +74,16 @@ module.exports = {
                 dry:      false       //启用删除文件
             }
         ),
-        // new MiniCssExtractPlugin({
-        //     filename: '[name].css'
-        // }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template:  './src/index.html',
             chunks: ['vendor', 'j1'],
             title: 'is title'
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin() // 热更新，自动刷新
       ], 
 }
 

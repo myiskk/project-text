@@ -30,18 +30,7 @@ app.use(hotMiddleware)
 app.use(express.static('./'));
 
 var uri = 'http://localhost:' + port;
-app.use(function (req, res, next) {
-    console.log(1111111);
-    next();
-});
-app.use(function (req, res, next) {
-    console.log(222222);
-    next();
-});
-app.use(function (req, res, next) {
-    console.log(333333);
-    next();
-});
+
 devMiddleware.waitUntilValid(function () {
     console.log('> Listening at ' + uri + '\n')
 });
