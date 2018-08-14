@@ -1,11 +1,7 @@
-
-
-
-
 const SyncHook = require('tapable').SyncHook;
 
 // 具有 `apply` 方法……
-let compiler = new SyncHook(['a', 'b', 'c']);
+let compiler = new SyncHook(['params1', 'params2', 'params3']);
 compiler.tap('1', function (a,b,c, callback) {
     console.log(1, a,b,c);
 });

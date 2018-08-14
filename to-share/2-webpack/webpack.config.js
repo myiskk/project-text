@@ -25,11 +25,11 @@ module.exports = {
     },
     module: {
         rules: [
-            { 
-                test: /\.js$/, 
-                exclude: /node_modules/, 
-                loader: "babel-loader" 
-            },
+            // { 
+            //     test: /\.js$/, 
+            //     exclude: /node_modules/, 
+            //     loader: "babel-loader" 
+            // }, // 并不能转换所有
             {
                 test: /\.css$/, // 正则，数组
                 use: [
@@ -40,7 +40,7 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                loader: [
+                use: [
                     {  
                         loader: 'url-loader',  
                         options: {
@@ -54,7 +54,7 @@ module.exports = {
         ]    
     },
     optimization: {
-        splitChunks: {
+        splitChunks: { // 公共代码抽取
             cacheGroups: {  // 自定义配置主要使用它来决定生成的文件
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
@@ -82,7 +82,7 @@ module.exports = {
             filename: '[name].css'
         }),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
+            filename: 'index1.html',
             template:  'html-withimg-loader!./src/index.html',
             chunks: ['vendor', 'j1'],
             title: 'is title'
