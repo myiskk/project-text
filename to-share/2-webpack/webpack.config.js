@@ -133,7 +133,7 @@ module.exports = {
 
 
 
-// CommonsChunkPlugin
+
 // __dirname：全局变量，存储的是文件所在的文件目录
 // __filename：全局变量，存储的是文件名
 
