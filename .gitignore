@@ -1,4 +1,7 @@
 node-test/node_modules
 to-share/2-webpack/node_modules
 to-share/2-webpack/dist
+to-share/3-lightapp/dist
+to-share/3-lightapp/node_modules
+to-share/3-lightapp/build
 others/webpack-text/node_modules
