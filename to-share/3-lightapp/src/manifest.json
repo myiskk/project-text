@@ -15,7 +15,8 @@
     { "origin": "*" }
   ],
   "config": {
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "designWidth": 640
   },
   "router": {
     "entry": "Demo",
