@@ -1,5 +1,4 @@
 
-
 class llwSDK {
     constructor(options) {
         this.$el = options.el;
@@ -8,14 +7,12 @@ class llwSDK {
         this.methods = options.methods;
     }
 
-
     mount() {
         init.initData(this);
         init.initEvent(this);
         init.initRender(this);
     }
 }
-
 
 var init = {
     initData(vm) {
@@ -41,26 +38,23 @@ class Observer {
 
     observer(vm) {
         let data = vm.data,
-            $data = vm.$data;
+            $data = vm.$data,
+            dep = this.dep;
         Object.keys(data).forEach((key) => {
             $data[key] = data[key];
-            this.dep.addSub(key);
             Object.defineProperty(data, key, {
                 get() {
+                    Dep.target && dep.addMaps(Dep.target, key)
                     return $data[`${key}`];
                 },
                 set(val) {
                     $data[`${key}`] = val;
-                    this.dep.notify(vm, key);
+                    dep.notify(key);
                 }
             });
         });
     }
-    update () {
-
-    }
 }
-
 
 // 解析模板指令，将模板中的变量替换成数据
 class Compile {
@@ -79,12 +73,42 @@ class Compile {
         let text = node.textContent;
         if (reg.test(text)) {
             let dataKey = text.replace(/\{\{|\}\}/g, '');
-            node.textContent = this.vm.data[dataKey]
-            console.log(this.vm._ob_)
+            new Watcher({
+                vm: this.vm,
+                exp: dataKey,
+                cb (value, oldValue) {
+                    node.textContent = value
+                }
+            }).run();
         }
     }
 }
 
+class Watcher {
+    constructor(options) {
+        this.cb = options.cb;
+        this.vm = options.vm;
+        this.exp = options.exp;
+        this.value = null;      
+    }
+    update () {
+        this.run();
+    }
+    run () {
+        var value = this.get(); // 取到最新值
+        var oldVal = this.value;
+        if (value !== oldVal) {
+            this.value = value;
+            this.cb.call(this.vm, value, oldVal); // 执行Compile中绑定的回调，更新视图
+        }
+    }
+    get () {
+        Dep.target = this;	// 将当前订阅者指向自己
+        var value = this.vm.data[this.exp];	// 触发getter，添加自己到属性订阅器中
+        Dep.target = null;	// 添加完毕，重置
+        return value;
+    }
+}
 
 let uid = 0
 class Dep {
@@ -94,14 +118,11 @@ class Dep {
         this.subs = []
         this.subsMap = {}
     }
-
-    addSub(key, node) {
-        this.subsMap[key] = {
-            node: node
-        }
+    addMaps (target, key) {
+        this.subsMap[key] = target
     }
 
     notify(key) {
-        // this.vm.data[]
+        this.subsMap[key].update();
     }
 }
