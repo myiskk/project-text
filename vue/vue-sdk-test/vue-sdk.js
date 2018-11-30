@@ -1,66 +1,107 @@
-class llwSDK {
-    constructor (options) {
-        console.log(options)
 
-        this.data = {};
-        this.$data = options.data;
+
+class llwSDK {
+    constructor(options) {
+        this.$el = options.el;
+        this.data = options.data;
+        this.$data = {};
         this.methods = options.methods;
     }
 
 
-    mount () {
-        util.observer(this);
-        event.init(this);
+    mount() {
+        init.initData(this);
+        init.initEvent(this);
+        init.initRender(this);
     }
-
 }
-var event = {
-    init (vm) {
-        let methods = vm.methods;
 
+
+var init = {
+    initData(vm) {
+        vm._ob_ = new Observer(vm);
+        vm._ob_.observer(vm);
+    },
+    initEvent(vm) {
+        let methods = vm.methods;
         Object.keys(methods).forEach((key) => {
-            console.log(key)
             document.querySelector('.span').addEventListener('click', methods[key].bind(vm), false);
         });
     },
-    bind (vm) {
-
-
+    initRender(vm) {
+        vm._compile_ = new Compile(vm);
+        vm._compile_.compile(vm)
     }
 }
 
-var util = {
-    // 逻辑
-    initData() {
+class Observer {
+    constructor() {
+        this.dep = new Dep();
+    }
 
-    },
-
-    renderHtml () {
-    },
-
-    observer (vm) {
-        let data = vm.data;
+    observer(vm) {
+        let data = vm.data,
+            $data = vm.$data;
         Object.keys(data).forEach((key) => {
-            console.log(key)
+            $data[key] = data[key];
+            this.dep.addSub(key);
             Object.defineProperty(data, key, {
-                // value: data[key],
-                // writable: true,
-                // enumerable: true,
-                // configurable: false,
-                get () {
-                    console.log('要改变get')
-                    return this[key];
+                get() {
+                    return $data[`${key}`];
                 },
-                set (val) {
-                    vm.data[key] = val;
+                set(val) {
+                    $data[`${key}`] = val;
+                    this.dep.notify(vm, key);
                 }
             });
         });
     }
+    update () {
+
+    }
+}
 
 
+// 解析模板指令，将模板中的变量替换成数据
+class Compile {
+    constructor (vm) {
+        this.vm = vm;
+    }
+    compile () {
+        let el = document.querySelector(this.vm.$el);
+        let childNodes = el.childNodes;
+        [].slice.call(childNodes).forEach((node) => {
+            this.renderText(node)
+        });
+    }
+    renderText (node) {
+        let reg = /\{\{(.*)\}\}/; // 表达式文本
+        let text = node.textContent;
+        if (reg.test(text)) {
+            let dataKey = text.replace(/\{\{|\}\}/g, '');
+            node.textContent = this.vm.data[dataKey]
+            console.log(this.vm._ob_)
+        }
+    }
+}
 
 
+let uid = 0
+class Dep {
+    constructor(vm) {
+        this.vm = vm;
+        this.id = uid++;
+        this.subs = []
+        this.subsMap = {}
+    }
 
+    addSub(key, node) {
+        this.subsMap[key] = {
+            node: node
+        }
+    }
 
+    notify(key) {
+        // this.vm.data[]
+    }
 }
