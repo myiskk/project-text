@@ -2,7 +2,8 @@
 class llwSDK {
     constructor(options) {
         this.$el = options.el;
-        this.data = options.data;
+        this.data = options.data.call(vm, vm);
+        this._data = options.data.call(vm, vm);
         this.$data = {};
         this.methods = options.methods;
     }
@@ -38,17 +39,17 @@ class Observer {
 
     observer(vm) {
         let data = vm.data,
-            $data = vm.$data,
+            _data = vm._data,
             dep = this.dep;
         Object.keys(data).forEach((key) => {
             $data[key] = data[key];
             Object.defineProperty(data, key, {
                 get() {
                     Dep.target && dep.addMaps(Dep.target, key)
-                    return $data[`${key}`];
+                    return _data[`${key}`];
                 },
                 set(val) {
-                    $data[`${key}`] = val;
+                    _data[`${key}`] = val;
                     dep.notify(key);
                 }
             });
@@ -63,8 +64,11 @@ class Compile {
     }
     compile () {
         let el = document.querySelector(this.vm.$el);
+        console.log(el);
+
         let childNodes = el.childNodes;
         [].slice.call(childNodes).forEach((node) => {
+            console.log(node);
             this.renderText(node)
         });
     }
@@ -81,6 +85,11 @@ class Compile {
                 }
             }).run();
         }
+    }
+
+    filterSpecialLetter(tpl) {
+        tpl.replace(/(\n+)|(\r+)|(\n*\r*)|(\u000A|\u000D|\u2028|\u2029)*/g,"");
+        console.log(tpl);
     }
 }
 

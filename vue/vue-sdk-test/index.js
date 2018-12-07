@@ -1,14 +1,16 @@
 window.onload = function () {
     new llwSDK({
         el: '#app',
-        data: {
-            hi: 'hellow',
-            count: 10
+        data () {
+            return {
+                hi: 'hellow',
+                count: 10
+            }
         },
         methods: {
             handerClick () {
                 this.data.count = this.data.count + 1;
-                console.log(this.data.count)
+                this.data.hi = this.data.hi + 'x';
             }
         }
     }).mount();
