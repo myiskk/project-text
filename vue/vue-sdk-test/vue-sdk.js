@@ -2,9 +2,8 @@
 class llwSDK {
     constructor(options) {
         this.$el = options.el;
-        this.data = options.data.call(vm, vm);
-        this._data = options.data.call(vm, vm);
-        this.$data = {};
+        this.data = options.data.call(this, this);
+        this._data = options.data.call(this, this);
         this.methods = options.methods;
     }
 
@@ -42,7 +41,7 @@ class Observer {
             _data = vm._data,
             dep = this.dep;
         Object.keys(data).forEach((key) => {
-            $data[key] = data[key];
+            _data[key] = data[key];
             Object.defineProperty(data, key, {
                 get() {
                     Dep.target && dep.addMaps(Dep.target, key)
@@ -64,7 +63,7 @@ class Compile {
     }
     compile () {
         let el = document.querySelector(this.vm.$el);
-        console.log(el);
+        console.log(el.);
 
         let childNodes = el.childNodes;
         [].slice.call(childNodes).forEach((node) => {
