@@ -63,7 +63,6 @@ class Compile {
     }
     compile () {
         let el = document.querySelector(this.vm.$el);
-        console.log(el.);
 
         let childNodes = el.childNodes;
         [].slice.call(childNodes).forEach((node) => {
