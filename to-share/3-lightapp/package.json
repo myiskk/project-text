@@ -14,7 +14,7 @@
     "watch": "hap watch"
   },
   "devDependencies": {
-    "hap-toolkit": "0.0.37",
+    "hap-toolkit": "1.9.11",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
